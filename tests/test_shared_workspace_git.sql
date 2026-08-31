@@ -1,3 +1,3 @@
-SELECT * 
-FROM /Volumes/ftw-week-06/00-source/cloudflare/shared/week06/instacart_csv/aisles.csv
+SELECT *
+FROM `ftw-week-06`.`01-raw`.order_products_train
 LIMIT 10;
