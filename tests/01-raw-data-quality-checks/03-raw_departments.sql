@@ -1,4 +1,4 @@
--- inspect departments
+-- inspect departments (addressed virna's aisles "missing" comment)
 SELECT
     COUNT(*) AS row_count,
 
@@ -9,6 +9,9 @@ SELECT
     COUNT_IF(
         department IS NULL OR TRIM(department) = ''
     ) AS missing_or_empty_department,
+
+    -- encoded missing values
+    COUNT_IF(TRIM(department) = 'missing') AS encoded_missing_department,
 
     -- uniqueness
     COUNT(DISTINCT department_id) AS unique_department_id,
