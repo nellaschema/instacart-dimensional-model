@@ -15,6 +15,16 @@ SELECT
     -- Uniqueness
     COUNT(DISTINCT order_id) AS unique_order_id,
     COUNT(DISTINCT user_id) AS unique_user_id,
+    COUNT(DISTINCT eval_set) AS unique_eval_set,
+
+     --duplicate checks
+    COUNT_IF(order_id IN (
+        SELECT order_id
+        FROM `ftw-week-06`.`01-raw`.orders
+        GROUP BY order_id
+        HAVING COUNT(*) > 1
+        )) AS duplicate_order_id_count,
+
 
     -- Validity
     SUM(CASE WHEN order_dow NOT BETWEEN 0 AND 6 THEN 1 ELSE 0 END)

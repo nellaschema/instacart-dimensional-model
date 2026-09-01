@@ -13,6 +13,8 @@
 | missing `days_since_prior_order`     |   206,209 |
 | unique `order_id`                    | 3,421,083 |
 | unique `user_id`                     |   206,209 |
+| duplicate `order_id` | 0 |
+| unique `eval_set` | 3 |
 | invalid `order_dow`                  |         0 |
 | invalid `order_hour_of_day`          |         0 |
 | invalid `order_number`               |         0 |
@@ -29,7 +31,9 @@
 * `order_dow` values are within the expected range of **0–6**.
 * `order_hour_of_day` values are within the expected range of **0–23**.
 * all `order_number` values are valid.
+* no duplicate `order_id` values were identified.
 * `days_since_prior_order` contains **206,209 null values**, with no negative values or values above 30.
+* the dataset contains **3 unique `eval_set` values**.
 * no first orders incorrectly contain a prior-order value.
 * no subsequent orders are missing `days_since_prior_order`.
 
