@@ -26,7 +26,7 @@ SELECT
 
     order_hour_of_day,    -- hour when the order was placed
     COUNT(DISTINCT order_id) AS order_count,    -- number of unique orders
-    COUNT(DISTINCT user_id) AS customer_count   -- number of unique customers
+    COUNT(DISTINCT user_id) AS customer_count   -- number of unique customers placing orders
 FROM `ftw-week-06`.`03-mart`.dim_order
 
 GROUP BY -- Analyze purchasing activity for every combination of day and hour
