@@ -12,8 +12,8 @@ SELECT
     ) AS null_count,
 
     -- DUPLICATE
-    COUNT(*) - COUNT(DISTINCT product_id) AS duplicate_count,
-
+    (COUNT(*) - COUNT(DISTINCT product_id))
+    + (COUNT(*) - COUNT(DISTINCT product_name)) AS duplicate_count,
     -- REFERENTIAL INTEGRITY
     0 AS referential_integrity,
 
@@ -21,8 +21,8 @@ SELECT
     COUNT_IF(
         product_id <= 0
         OR TRIM(product_name) = ''
-    ) AS invalid_values
-
+   ) AS invalid_values
+        
 FROM `ftw-week-06`.`03-mart`.dim_product
 
 UNION ALL
@@ -57,7 +57,7 @@ SELECT
         OR order_hour_of_day NOT BETWEEN 0 AND 23
         OR days_since_prior_order < 0
         OR days_since_prior_order > 30
-    )
+        OR user_id <= 0)
 
 FROM `ftw-week-06`.`03-mart`.dim_order
 
