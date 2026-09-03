@@ -17,9 +17,7 @@
 
 -- This creates a table so the dashboard can read from it directly, instead of re-running the query each time, as per Sara's advice.
 
-CREATE SCHEMA IF NOT EXISTS `ftw-week-06`.`04-business-analysis`;
-
-CREATE OR REPLACE TABLE `ftw-week-06`.`04-business-analysis`.top_products_per_department AS
+CREATE OR REPLACE TABLE `ftw-week-06`.`04-analytics`.top_products_per_department AS
 
 WITH product_purchases AS (
     SELECT
