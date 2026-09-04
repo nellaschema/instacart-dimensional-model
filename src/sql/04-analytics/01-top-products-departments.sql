@@ -17,7 +17,7 @@
 
 -- This creates a table so the dashboard can read from it directly, instead of re-running the query each time, as per Sara's advice.
 
-CREATE OR REPLACE TABLE AS
+CREATE OR REPLACE TABLE `ftw-week-06`.`04-analytics`.top_products_per_department AS
 WITH product_purchases AS (
     SELECT
         dp.department,
@@ -74,7 +74,8 @@ SELECT
     purchase_count,
     department_purchase_count,
     product_share_pct,
-    CASE WHEN department_rank <= 5 THEN department_rank ELSE 6 END AS display_rank
+    CASE WHEN department_rank <= 5 THEN department_rank ELSE 6 END AS display_rank,
+    CASE WHEN department_rank <= 5 THEN CONCAT(department, department_rank) ELSE CONCAT(department, 6) END AS dept_rank
 FROM ranked_products
 WHERE department NOT IN ('Unknown', 'missing')--removed WHERE department_rank <= 3 will just filter in dashboard
 ORDER BY -- sort by department, with the highest-frequency product first within each
