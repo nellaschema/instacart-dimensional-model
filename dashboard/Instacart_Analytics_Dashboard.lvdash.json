@@ -1,0 +1,393 @@
+{
+  "datasets": [
+    {
+      "name": "29bdcc32",
+      "displayName": "product_reorder_behavior",
+      "config": {
+        "version": "1.1",
+        "source": "SELECT * \nFROM `ftw-week-06`.`04-analytics`.product_reorder_behavior\nORDER BY total_reorders DESC\nLIMIT 10",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "052039a6",
+      "displayName": "product_reorder_behavior",
+      "config": {
+        "version": "1.1",
+        "source": "`ftw-week-06`.`04-analytics`.product_reorder_behavior",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "92b14271",
+      "displayName": "order_by_day_hour",
+      "config": {
+        "version": "1.1",
+        "source": "`ftw-week-06`.`04-analytics`.order_by_day_hour",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "cc772790",
+      "displayName": "Instacart-Dashboard",
+      "layout": [
+        {
+          "widget": {
+            "name": "c8814cca",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "29bdcc32",
+                  "fields": [
+                    {
+                      "name": "total_reorders",
+                      "expression": "`total_reorders`"
+                    },
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"font-size:18px\">Most Reordered Products</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "total_reorders",
+                  "axis": {
+                    "title": "total reorders"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "product_name",
+                  "axis": {
+                    "title": "product name"
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "total_reorders",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "aad39819",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\"><span style=\"font-size: 48px;line-height: 1.5;\">INSTACART DASHBOARD</span></span>"
+              ],
+              "verticalAlign": "VERTICAL_ALIGN_CENTER"
+            },
+            "specExtensions": {
+              "widgetBorderColor": {
+                "dark": "#649AC6"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "cf9b2437",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## <span style=\"text-align:center;display:block;\">Product Reorder Behavior</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "c382550b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "052039a6",
+                  "fields": [
+                    {
+                      "name": "department",
+                      "expression": "`department`"
+                    },
+                    {
+                      "name": "sum(total_reorders)",
+                      "expression": "SUM(`total_reorders`)"
+                    },
+                    {
+                      "name": "sum(total_orders)",
+                      "expression": "SUM(`total_orders`)"
+                    },
+                    {
+                      "name": "aisle",
+                      "expression": "`aisle`"
+                    },
+                    {
+                      "name": "avg(reorder_rate)",
+                      "expression": "AVG(`reorder_rate`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"font-size:18px\">Reorder rate by Aisle/Department</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "aisle",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(reorder_rate)",
+                  "displayName": "reorder_rate",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "department",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "sum(total_reorders)"
+                  },
+                  {
+                    "fieldName": "sum(total_orders)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "5a952888",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## <span style=\"text-align:center;display:block;\">Customer Purchasing Behavior</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f7a4021d",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "92b14271",
+                  "fields": [
+                    {
+                      "name": "sum(order_count)",
+                      "expression": "SUM(`order_count`)"
+                    },
+                    {
+                      "name": "day_of_week",
+                      "expression": "`day_of_week`"
+                    },
+                    {
+                      "name": "order_hour_of_day",
+                      "expression": "`order_hour_of_day`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": {
+                  "value": "<span style=\"font-size: 18px;\">Order Counts by Day and Hour</span>",
+                  "fields": []
+                },
+                "description": {
+                  "value": "*Most orders occur on 1) Sunday and at 2) 10am*",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "day_of_week",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "Hour of Day",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        "Sunday",
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday"
+                      ]
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "order_hour_of_day",
+                  "displayName": "Hour of Day",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "sum(order_count)",
+                  "displayName": "Order Quantity",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 12,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
