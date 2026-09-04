@@ -17,6 +17,7 @@
 
 -- This creates a table so the dashboard can read from it directly, instead of re-running the query each time, as per Sara's advice.
 
+CREATE OR REPLACE TABLE AS
 WITH product_purchases AS (
     SELECT
         dp.department,
