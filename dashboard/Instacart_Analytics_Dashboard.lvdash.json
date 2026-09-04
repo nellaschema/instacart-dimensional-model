@@ -72,6 +72,11 @@
         "dimensions": [
           {
             "expr": "source.*"
+          },
+          {
+            "name": "dept_rank_color",
+            "expr": "CONCAT(source.department, '_', CAST(source.display_rank AS STRING))",
+            "displayName": "Department Rank Color"
           }
         ],
         "measures": [
@@ -408,7 +413,11 @@
                   "fieldName": "sum(order_count)",
                   "displayName": "Order Quantity",
                   "scale": {
-                    "type": "quantitative"
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "blues"
+                    }
                   }
                 }
               },
@@ -434,8 +443,8 @@
                   "datasetName": "deb43891",
                   "fields": [
                     {
-                      "name": "sum(display_rank)",
-                      "expression": "SUM(`display_rank`)"
+                      "name": "dept_rank_color",
+                      "expression": "`dept_rank_color`"
                     },
                     {
                       "name": "product_name",
@@ -481,13 +490,12 @@
                   }
                 },
                 "color": {
-                  "fieldName": "sum(display_rank)",
+                  "fieldName": "dept_rank_color",
                   "legend": {
                     "hide": true
                   },
                   "scale": {
-                    "type": "quantitative",
-                    "reverse": true
+                    "type": "categorical"
                   }
                 },
                 "extra": [
@@ -502,9 +510,9 @@
             }
           },
           "position": {
-            "x": 9,
+            "x": 7,
             "y": 23,
-            "width": 3,
+            "width": 5,
             "height": 7
           }
         },
@@ -583,7 +591,12 @@
                   "fieldName": "sum(pair_order_count)",
                   "displayName": "Total order count",
                   "scale": {
-                    "type": "quantitative"
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "purplegreen"
+                    },
+                    "reverse": false
                   }
                 }
               },
@@ -611,6 +624,10 @@
                     {
                       "name": "dept_rank",
                       "expression": "`dept_rank`"
+                    },
+                    {
+                      "name": "sum(product_share_pct)",
+                      "expression": "SUM(`product_share_pct`)"
                     },
                     {
                       "name": "sum(purchase_count)",
@@ -646,6 +663,10 @@
                   "fieldName": "department",
                   "scale": {
                     "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
                     "sort": {
                       "by": "x-reversed"
                     }
@@ -653,10 +674,21 @@
                 },
                 "color": {
                   "fieldName": "dept_rank",
+                  "legend": {
+                    "hide": true
+                  },
                   "scale": {
-                    "type": "categorical"
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
                   }
-                }
+                },
+                "extra": [
+                  {
+                    "fieldName": "sum(product_share_pct)"
+                  }
+                ]
               },
               "data": {
                 "queryName": "main_query"
@@ -666,7 +698,7 @@
           "position": {
             "x": 0,
             "y": 23,
-            "width": 9,
+            "width": 7,
             "height": 7
           }
         }
@@ -677,7 +709,393 @@
   ],
   "uiSettings": {
     "theme": {
-      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "visualizationColorMappings": [
+        {
+          "value": "produce1",
+          "color": "#08306B"
+        },
+        {
+          "value": "produce2",
+          "color": "#08519C"
+        },
+        {
+          "value": "produce3",
+          "color": "#2171B5"
+        },
+        {
+          "value": "produce4",
+          "color": "#4292C6"
+        },
+        {
+          "value": "produce5",
+          "color": "#6BAED6"
+        },
+        {
+          "value": "produce6",
+          "color": "#9ECAE1"
+        },
+        {
+          "value": "dairy eggs1",
+          "color": "#00441B"
+        },
+        {
+          "value": "dairy eggs2",
+          "color": "#006D2C"
+        },
+        {
+          "value": "dairy eggs3",
+          "color": "#238B45"
+        },
+        {
+          "value": "dairy eggs4",
+          "color": "#41AB5D"
+        },
+        {
+          "value": "dairy eggs5",
+          "color": "#74C476"
+        },
+        {
+          "value": "dairy eggs6",
+          "color": "#A1D99B"
+        },
+        {
+          "value": "snacks1",
+          "color": "#7F2704"
+        },
+        {
+          "value": "snacks2",
+          "color": "#A63603"
+        },
+        {
+          "value": "snacks3",
+          "color": "#D94801"
+        },
+        {
+          "value": "snacks4",
+          "color": "#FD8D3C"
+        },
+        {
+          "value": "snacks5",
+          "color": "#FDAE6B"
+        },
+        {
+          "value": "snacks6",
+          "color": "#FDD0A2"
+        },
+        {
+          "value": "beverages1",
+          "color": "#67000D"
+        },
+        {
+          "value": "beverages2",
+          "color": "#A50F15"
+        },
+        {
+          "value": "beverages3",
+          "color": "#CB181D"
+        },
+        {
+          "value": "beverages4",
+          "color": "#EF3B2C"
+        },
+        {
+          "value": "beverages5",
+          "color": "#FB6A4A"
+        },
+        {
+          "value": "beverages6",
+          "color": "#FC9272"
+        },
+        {
+          "value": "frozen1",
+          "color": "#3F007D"
+        },
+        {
+          "value": "frozen2",
+          "color": "#54278F"
+        },
+        {
+          "value": "frozen3",
+          "color": "#6A51A3"
+        },
+        {
+          "value": "frozen4",
+          "color": "#807DBA"
+        },
+        {
+          "value": "frozen5",
+          "color": "#9E9AC8"
+        },
+        {
+          "value": "frozen6",
+          "color": "#BCBDDC"
+        },
+        {
+          "value": "pantry1",
+          "color": "#003D30"
+        },
+        {
+          "value": "pantry2",
+          "color": "#005A4C"
+        },
+        {
+          "value": "pantry3",
+          "color": "#00796E"
+        },
+        {
+          "value": "pantry4",
+          "color": "#009B8E"
+        },
+        {
+          "value": "pantry5",
+          "color": "#34B5A8"
+        },
+        {
+          "value": "pantry6",
+          "color": "#66CFC4"
+        },
+        {
+          "value": "bakery1",
+          "color": "#67001F"
+        },
+        {
+          "value": "bakery2",
+          "color": "#980043"
+        },
+        {
+          "value": "bakery3",
+          "color": "#CE1256"
+        },
+        {
+          "value": "bakery4",
+          "color": "#E7298A"
+        },
+        {
+          "value": "bakery5",
+          "color": "#F768A1"
+        },
+        {
+          "value": "bakery6",
+          "color": "#FBB4B9"
+        },
+        {
+          "value": "canned goods1",
+          "color": "#4D2200"
+        },
+        {
+          "value": "canned goods2",
+          "color": "#6E3300"
+        },
+        {
+          "value": "canned goods3",
+          "color": "#8F4400"
+        },
+        {
+          "value": "canned goods4",
+          "color": "#B0653A"
+        },
+        {
+          "value": "canned goods5",
+          "color": "#C98F6E"
+        },
+        {
+          "value": "canned goods6",
+          "color": "#E0B8A8"
+        },
+        {
+          "value": "deli1",
+          "color": "#1A1A6B"
+        },
+        {
+          "value": "deli2",
+          "color": "#2D2D8C"
+        },
+        {
+          "value": "deli3",
+          "color": "#4A4AAA"
+        },
+        {
+          "value": "deli4",
+          "color": "#6E6EC4"
+        },
+        {
+          "value": "deli5",
+          "color": "#9494D8"
+        },
+        {
+          "value": "deli6",
+          "color": "#BCBCEB"
+        },
+        {
+          "value": "dry goods pasta1",
+          "color": "#4D5500"
+        },
+        {
+          "value": "dry goods pasta2",
+          "color": "#6B7500"
+        },
+        {
+          "value": "dry goods pasta3",
+          "color": "#8A9A00"
+        },
+        {
+          "value": "dry goods pasta4",
+          "color": "#A8B83A"
+        },
+        {
+          "value": "dry goods pasta5",
+          "color": "#C4CC70"
+        },
+        {
+          "value": "dry goods pasta6",
+          "color": "#DFE0A8"
+        },
+        {
+          "value": "alcohol_1",
+          "color": "#4D0010"
+        },
+        {
+          "value": "alcohol_2",
+          "color": "#6E0018"
+        },
+        {
+          "value": "alcohol_3",
+          "color": "#8F0020"
+        },
+        {
+          "value": "alcohol_4",
+          "color": "#B04038"
+        },
+        {
+          "value": "alcohol_5",
+          "color": "#C97070"
+        },
+        {
+          "value": "alcohol_6",
+          "color": "#E0A8A8"
+        },
+        {
+          "value": "produce_1",
+          "color": "#08306B"
+        },
+        {
+          "value": "produce_2",
+          "color": "#08519C"
+        },
+        {
+          "value": "produce_3",
+          "color": "#2171B5"
+        },
+        {
+          "value": "produce_4",
+          "color": "#4292C6"
+        },
+        {
+          "value": "produce_5",
+          "color": "#6BAED6"
+        },
+        {
+          "value": "produce_6",
+          "color": "#9ECAE1"
+        },
+        {
+          "value": "dairy eggs_1",
+          "color": "#00441B"
+        },
+        {
+          "value": "dairy eggs_2",
+          "color": "#006D2C"
+        },
+        {
+          "value": "dairy eggs_3",
+          "color": "#238B45"
+        },
+        {
+          "value": "dairy eggs_4",
+          "color": "#41AB5D"
+        },
+        {
+          "value": "dairy eggs_5",
+          "color": "#74C476"
+        },
+        {
+          "value": "dairy eggs_6",
+          "color": "#A1D99B"
+        },
+        {
+          "value": "snacks_1",
+          "color": "#7F2704"
+        },
+        {
+          "value": "snacks_2",
+          "color": "#A63603"
+        },
+        {
+          "value": "snacks_3",
+          "color": "#D94801"
+        },
+        {
+          "value": "snacks_4",
+          "color": "#FD8D3C"
+        },
+        {
+          "value": "snacks_5",
+          "color": "#FDAE6B"
+        },
+        {
+          "value": "snacks_6",
+          "color": "#FDD0A2"
+        },
+        {
+          "value": "beverages_1",
+          "color": "#67000D"
+        },
+        {
+          "value": "beverages_2",
+          "color": "#A50F15"
+        },
+        {
+          "value": "beverages_3",
+          "color": "#CB181D"
+        },
+        {
+          "value": "beverages_4",
+          "color": "#EF3B2C"
+        },
+        {
+          "value": "beverages_5",
+          "color": "#FB6A4A"
+        },
+        {
+          "value": "beverages_6",
+          "color": "#FC9272"
+        },
+        {
+          "value": "frozen_1",
+          "color": "#3F007D"
+        },
+        {
+          "value": "frozen_2",
+          "color": "#54278F"
+        },
+        {
+          "value": "frozen_3",
+          "color": "#6A51A3"
+        },
+        {
+          "value": "frozen_4",
+          "color": "#807DBA"
+        },
+        {
+          "value": "frozen_5",
+          "color": "#9E9AC8"
+        },
+        {
+          "value": "frozen_6",
+          "color": "#BCBDDC"
+        }
+      ]
     },
     "applyModeEnabled": false
   }
