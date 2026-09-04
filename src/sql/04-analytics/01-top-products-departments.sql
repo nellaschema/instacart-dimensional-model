@@ -77,7 +77,7 @@ SELECT
     product_share_pct,
     department_rank
 FROM ranked_products
-WHERE department_rank <= 3   -- keep only each department's top 3 most frequently purchased products
+WHERE department NOT IN ('Unknown', 'missing') --removed WHERE department_rank <= 3 to show all products and just filtered in dashboard ui
 ORDER BY -- sort by department, with the highest-frequency product first within each
     department,
     department_rank;
