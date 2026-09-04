@@ -83,6 +83,27 @@
           }
         ]
       }
+    },
+    {
+      "name": "eb5b1752",
+      "displayName": "product_pairs",
+      "config": {
+        "version": "1.1",
+        "source": "`ftw-week-06`.`04-analytics`.product_pairs",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
     }
   ],
   "pages": [
@@ -308,7 +329,7 @@
           "position": {
             "x": 0,
             "y": 14,
-            "width": 6,
+            "width": 12,
             "height": 1
           }
         },
@@ -399,13 +420,13 @@
           "position": {
             "x": 0,
             "y": 15,
-            "width": 6,
-            "height": 6
+            "width": 12,
+            "height": 7
           }
         },
         {
           "widget": {
-            "name": "999d6c04",
+            "name": "t",
             "queries": [
               {
                 "name": "main_query",
@@ -413,12 +434,183 @@
                   "datasetName": "deb43891",
                   "fields": [
                     {
-                      "name": "display_rank",
-                      "expression": "`display_rank`"
+                      "name": "sum(display_rank)",
+                      "expression": "SUM(`display_rank`)"
                     },
                     {
                       "name": "product_name",
                       "expression": "`product_name`"
+                    },
+                    {
+                      "name": "sum(purchase_count)",
+                      "expression": "SUM(`purchase_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"font-size:18px\">Top Products By Purchase Counts</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(purchase_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "product_name",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "sum(display_rank)",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "quantitative",
+                    "reverse": true
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "product_name"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 23,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "4b06f6c1",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## <span style=\"text-align:center;display:block;\">Customer Purchasing Behavior</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 22,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "frequently-bought-together-product-pairs",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "eb5b1752",
+                  "fields": [
+                    {
+                      "name": "sum(pair_order_count)",
+                      "expression": "SUM(`pair_order_count`)"
+                    },
+                    {
+                      "name": "product_pair",
+                      "expression": "`product_pair`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": false,
+                "title": {
+                  "value": "<span style=\"font-size: 18px;\">Frequently Bought Together Product Pairs</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(pair_order_count)",
+                  "displayName": "Order Count",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "product_pair",
+                  "displayName": "Product Pair",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 20
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "sum(pair_order_count)",
+                  "displayName": "Total order count",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 30,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top-departments-by-purchase-counts",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "deb43891",
+                  "fields": [
+                    {
+                      "name": "dept_rank",
+                      "expression": "`dept_rank`"
                     },
                     {
                       "name": "sum(purchase_count)",
@@ -435,7 +627,11 @@
             ],
             "spec": {
               "frame": {
-                "showTitle": true
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"font-size:18px\">Top Departments By Purchase Counts</span>",
+                  "fields": []
+                }
               },
               "version": 3,
               "widgetType": "bar",
@@ -456,19 +652,11 @@
                   }
                 },
                 "color": {
-                  "fieldName": "display_rank",
-                  "legend": {
-                    "hide": true
-                  },
+                  "fieldName": "dept_rank",
                   "scale": {
-                    "type": "quantitative"
+                    "type": "categorical"
                   }
-                },
-                "extra": [
-                  {
-                    "fieldName": "product_name"
-                  }
-                ]
+                }
               },
               "data": {
                 "queryName": "main_query"
@@ -477,25 +665,9 @@
           },
           "position": {
             "x": 0,
-            "y": 21,
-            "width": 6,
-            "height": 6
-          }
-        },
-        {
-          "widget": {
-            "name": "4b06f6c1",
-            "multilineTextboxSpec": {
-              "lines": [
-                "## <span style=\"text-align:center;display:block;\">Customer Purchasing Behavior</span>"
-              ]
-            }
-          },
-          "position": {
-            "x": 0,
-            "y": 22,
-            "width": 12,
-            "height": 1
+            "y": 23,
+            "width": 9,
+            "height": 7
           }
         }
       ],
