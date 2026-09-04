@@ -7,13 +7,13 @@ This project transforms the Instacart dataset into a dimensional model designed 
 The pipeline follows a Medallion Architecture:
 
 ```text
-Raw Data
+Source (Cloudflare R2, CSV)
    ↓
-Bronze
+Raw/Bronze
    ↓
-Silver / Clean
+Clean/Silver
    ↓
-Gold / Mart
+Mart/Gold
    ↓
 Dimensional Model
 ```
@@ -27,7 +27,7 @@ The dimensional model consists of one fact table and two dimension tables.
 <img width="1066" height="488" alt="image" src="https://github.com/user-attachments/assets/fb70dac5-e1aa-4743-8548-9d9520b3c36a" />
 
 
-### Fact: `fact_order_product`
+### Fact: `fact_order_products`
 
 The fact table represents the relationship between an order and the products included in that order.
 
@@ -80,17 +80,16 @@ The source `aisle_id` and `department_id` are retained in the clean layer for lo
 
 ## Handling Missing Values
 
-Products with missing or unmatched aisle or department information should not be removed from the product dimension.
+Missing and unmatched product attributes are retained rather than removing the affected products.
 
 `LEFT JOIN` is used when enriching products with aisle and department information so that every product remains represented in `dim_product`.
 
-Missing categorical values can be represented as:
+The model distinguishes between intentionally retained missing categories and transformed NULL values:
 
-```text
-Unknown
-```
+`missing` values are retained when present in the source data.
+`NULL` aisle or department values are transformed to `Unknown` in the Mart layer.
 
-rather than `NULL`, making downstream analytical queries easier to interpret.
+This ensures that products remain available for analysis while providing meaningful categorical values for downstream queries.
 
 ## Data Quality
 
@@ -154,7 +153,7 @@ instacart-test-queries/
 
 The project separates data processing from analytical modeling:
 
-<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/db704852-6422-4749-980f-c8323f40c2d8" />
+<img width="1173" height="540" alt="image" src="https://github.com/user-attachments/assets/64f5ffbd-d830-473f-a5f7-ce8cc043c1c5" />
 
 
 ## Key Design Decision
