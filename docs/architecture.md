@@ -1,102 +1,77 @@
 # Architecture
 
-## Architecture Overview
+## 1. Architecture Overview
 
-The project follows a **Raw ➡️ Clean ➡️ Mart** pipeline that transforms Instacart source data into an analytics-ready dimensional Star Schema model.
+The project follows a **Raw → Clean → Mart → Analytics → Dashboard** pipeline that transforms Instacart source data into an analytics-ready dimensional model.
 
-```text
-       Instacart Source Data
-                 │
-                 ▼
-          Raw (Landing)
-                 │
-                 ▼
-         Raw Validation
-                 │
-                 ▼
-      Clean (Standardized)
-                 │
-                 ▼
-        Clean Validation
-                 │
-                 ▼
-      Mart (Gold / Star Schema)
-                 │
-                 ▼
-         Mart Validation
-                 │
-                 ▼
-      Cross-Layer Validation
-                 │
-                 ▼
-         Analysis Queries
-                 │
-                 ▼
-         Visual Dashboard
-```
+![Instacart Data Pipeline Architecture](https://github.com/user-attachments/assets/64f5ffbd-d830-473f-a5f7-ce8cc043c1c5)
 
-Each stage has a defined role in data ingestion, transformation, validation, dimensional modeling, and business analysis.
-
-> **Note:** Raw ➡️ Clean ➡️ Mart corresponds to the assignment's Bronze ➡️ Silver ➡️ Gold terminology.
+Each layer has a defined role in data ingestion, transformation, modeling, analysis, and reporting.
 
 ---
 
-## Data Layers
+## 2. Data Layer & Tables
 
-The pipeline separates source data, transformed data, and analytics-ready data into three distinct layers.
-
-| Layer     | Purpose                                                                  | Main Tables                                                                                   |
-| :-------- | :----------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
-| **Raw**   | Stores ingested source data with minimal transformation.                 | `products`, `aisles`, `departments`, `orders`, `order_products_prior`, `order_products_train` |
-| **Clean** | Applies cleaning and standardization rules to prepare data for modeling. | `products_clean`, `aisles_clean`, `departments_clean`, `orders_clean`, `order_products_clean` |
-| **Mart**  | Organizes cleaned data into an analytics-ready dimensional Star Schema.  | `dim_product`, `dim_order`, `fact_order_products`                                             |
-
-The detailed dimensional model, including table grain, keys, and relationships, is documented separately in [`star-schema.md`](star-schema.md).
+| Layer         | Purpose                                                     | Main Tables / Outputs                                                                         |
+| ------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Raw**       | Stores source data with minimal transformation.             | `products`, `aisles`, `departments`, `orders`, `order_products_prior`, `order_products_train` |
+| **Clean**     | Cleans and standardizes data for modeling.                  | `products_clean`, `aisles_clean`, `departments_clean`, `orders_clean`, `order_products_clean` |
+| **Mart**      | Organizes cleaned data into an analytics-ready Star Schema. | `dim_product`, `dim_order`, `fact_order_products`                                             |
+| **Analytics** | Applies business logic and generates analytical results.    | Analysis queries / outputs                                                                    |
+| **Dashboard** | Presents KPIs, trends, and business insights.               | Visualizations                                                                                |
 
 ---
 
-## Validation Framework
+## 3. Grain & Keys
 
-Data quality checks are integrated throughout the pipeline to identify data quality and integrity issues before downstream processing.
+| Table                  | Grain                               | Key                     |
+| ---------------------- | ----------------------------------- | ----------------------- |
+| `orders_clean`         | One row per order                   | `order_id`              |
+| `products_clean`       | One row per product                 | `product_id`            |
+| `aisles_clean`         | One row per aisle                   | `aisle_id`              |
+| `departments_clean`    | One row per department              | `department_id`         |
+| `order_products_clean` | One row per product within an order | `order_id + product_id` |
+| `dim_order`            | One row per order                   | `order_id`              |
+| `dim_product`          | One row per product                 | `product_id`            |
+| `fact_order_products`  | One row per product within an order | `order_id + product_id` |
 
-* **Layer-Specific Validation:** Validates the data within the Raw, Clean, and Mart layers.
-* **Cross-Layer Validation:** Compares row counts across Raw, Clean, and Mart to identify unexpected changes during transformation.
-
-Detailed validation rules and SQL implementations are maintained separately in the validation scripts.
-
----
-
-## Incremental Loading Logic
-
-The pipeline supports incremental processing when new data is added to the source.
-
-```text
-                       New Data Batch
-                              │
-                              ▼
-                     Incremental Processing
-                              │
-             ┌────────────────┴────────────────┐
-             ▼                                 ▼
-      Dimension Records                  Transaction Records
-             │                                 │
-             ▼                                 ▼
-           MERGE                       INSERT + Deduplication
-             │                                 │
-             └────────────────┬────────────────┘
-                              ▼
-                         Clean Layer
-                              │
-                              ▼
-                         Mart Layer
-```
-
-Incremental processing identifies new or changed records and applies the appropriate loading strategy. This allows new data to be incorporated while preserving existing records and preventing duplicates.
+The `order_id + product_id` combination serves as the composite key for order-product records.
 
 ---
 
-## Analysis and Dashboard
+## 4. Loading & Incremental Strategy
 
-The Mart layer serves as the primary source for downstream analysis and dashboarding.
+Loading strategies are selected based on table behavior and size.
 
-Business-question queries use the dimensional Star Schema to generate analytical results, which are presented through interactive dashboards to communicate trends, comparisons, and business insights.
+| Table                  | Strategy                     | Behavior                               |
+| ---------------------- | ---------------------------- | -------------------------------------- |
+| `orders_clean`         | `MERGE`                      | Insert new and update existing records |
+| `products_clean`       | `MERGE`                      | Insert new and update existing records |
+| `aisles_clean`         | `MERGE`                      | Insert new and update existing records |
+| `departments_clean`    | `MERGE`                      | Insert new and update existing records |
+| `order_products_clean` | `INSERT INTO` + `NOT EXISTS` | Append new records without duplicates  |
+| `dim_product`          | `CREATE OR REPLACE`          | Rebuild the relatively small dimension |
+| `dim_order`            | `MERGE`                      | Insert new and update existing records |
+| `fact_order_products`  | `INSERT INTO` + `NOT EXISTS` | Append new records without duplicates  |
+
+`NOT EXISTS` prevents existing order-product records from being duplicated when transformations are rerun.
+
+---
+
+## 5. Validation Framework
+
+Validation is performed throughout the pipeline to check data quality and integrity.
+
+* **Layer-specific validation** checks data within the Raw, Clean, and Mart layers.
+* **Cross-layer validation** compares row counts to identify unexpected record loss or duplication.
+* **Key validation** checks the uniqueness of defined keys and composite keys.
+
+Detailed validation rules and SQL implementations are maintained separately.
+
+---
+
+## 6. Analysis & Dashboard
+
+The **Mart layer** serves as the primary source for downstream analysis.
+
+Analysis queries use the dimensional model to answer the project's business questions. The resulting outputs are used to create dashboard visualizations and communicate purchasing patterns, product performance, and reorder behavior.
