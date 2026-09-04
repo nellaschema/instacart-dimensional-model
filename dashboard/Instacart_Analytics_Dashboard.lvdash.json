@@ -455,6 +455,11 @@
                       "expression": "SUM(`purchase_count`)"
                     }
                   ],
+                  "filters": [
+                    {
+                      "expression": "IN_RANGE(`purchase_count`, 20000, NULL)"
+                    }
+                  ],
                   "disaggregated": false
                 }
               }
