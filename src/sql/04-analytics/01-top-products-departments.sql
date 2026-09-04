@@ -17,8 +17,6 @@
 
 -- This creates a table so the dashboard can read from it directly, instead of re-running the query each time, as per Sara's advice.
 
-CREATE OR REPLACE TABLE `ftw-week-06`.`04-analytics`.top_products_per_department AS
-
 WITH product_purchases AS (
     SELECT
         dp.department,
@@ -71,13 +69,13 @@ ranked_products AS (
 
 SELECT
     department,
-    product_name,
+    product_name, CASE WHEN department_rank <= 5 THEN product_name ELSE 'Other' END AS product_category,
     purchase_count,
     department_purchase_count,
     product_share_pct,
-    department_rank
+    CASE WHEN department_rank <= 5 THEN department_rank ELSE 6 END AS display_rank
 FROM ranked_products
-WHERE department_rank <= 3   -- keep only each department's top 3 most frequently purchased products
+WHERE department NOT IN ('Unknown', 'missing')--removed WHERE department_rank <= 3 will just filter in dashboard
 ORDER BY -- sort by department, with the highest-frequency product first within each
     department,
     department_rank;
