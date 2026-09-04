@@ -62,6 +62,27 @@
           }
         ]
       }
+    },
+    {
+      "name": "deb43891",
+      "displayName": "top_products_per_department",
+      "config": {
+        "version": "1.1",
+        "source": "`ftw-week-06`.`04-analytics`.top_products_per_department",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
     }
   ],
   "pages": [
@@ -235,6 +256,9 @@
                     "categorySize": {
                       "type": "number-of-categories",
                       "number": 10
+                    },
+                    "sort": {
+                      "by": "natural-order"
                     }
                   }
                 },
@@ -284,7 +308,7 @@
           "position": {
             "x": 0,
             "y": 14,
-            "width": 12,
+            "width": 6,
             "height": 1
           }
         },
@@ -375,8 +399,103 @@
           "position": {
             "x": 0,
             "y": 15,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "999d6c04",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "deb43891",
+                  "fields": [
+                    {
+                      "name": "display_rank",
+                      "expression": "`display_rank`"
+                    },
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "sum(purchase_count)",
+                      "expression": "SUM(`purchase_count`)"
+                    },
+                    {
+                      "name": "department",
+                      "expression": "`department`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(purchase_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "department",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "display_rank",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "extra": [
+                  {
+                    "fieldName": "product_name"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 21,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "4b06f6c1",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## <span style=\"text-align:center;display:block;\">Customer Purchasing Behavior</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 22,
             "width": 12,
-            "height": 7
+            "height": 1
           }
         }
       ],
