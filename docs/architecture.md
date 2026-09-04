@@ -37,6 +37,8 @@ Each layer has a defined role in data ingestion, transformation, modeling, analy
 
 The `order_id + product_id` combination serves as the composite key for order-product records.
 
+Aisle and department information are included directly in dim_product to simplify downstream queries and joins, as they are primarily used as product classification attributes in this project.
+
 ---
 
 ## 4. Loading & Incremental Strategy
