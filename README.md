@@ -154,26 +154,8 @@ instacart-test-queries/
 
 The project separates data processing from analytical modeling:
 
-```text
-             RAW
-       Raw Instacart Data
-              │
-              ▼
-             CLEAN
-     Cleaned and Validated Data
-              │
-              ▼
-              MART
-       Dimensional Model
-              │
-       ┌──────┴──────┐
-       ▼             ▼
-    Facts          Dimensions
-       │             │
-       └──────┬──────┘
-              ▼
-          Analytics
-```
+<img width="1672" height="941" alt="image" src="https://github.com/user-attachments/assets/db704852-6422-4749-980f-c8323f40c2d8" />
+
 
 ## Key Design Decision
 
