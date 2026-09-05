@@ -180,11 +180,12 @@ Databricks Volume
      ├── order_products_prior
      └── order_products_train
 
+
 ## Architecture
 
 The project separates data processing from analytical modeling:
 
-<img width="720" height="350" alt="Screenshot 2026-09-05 102456" src="https://github.com/user-attachments/assets/e26d261b-4f1e-4c1e-a962-62d32f9a7a7a" />
+<img width="720" height="350" alt="image (6)" src="https://github.com/user-attachments/assets/3d7ce7f8-4e56-41f7-ac41-b3844020c74f" />
 
 
 ## Key Design Decision
