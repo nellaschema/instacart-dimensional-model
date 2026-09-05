@@ -179,14 +179,13 @@ Databricks Volume
      ├── departments
      ├── order_products_prior
      └── order_products_train
-
+```
 
 ## Architecture
 
 The project separates data processing from analytical modeling:
 
-<img width="720" height="350" alt="image (6)" src="https://github.com/user-attachments/assets/3d7ce7f8-4e56-41f7-ac41-b3844020c74f" />
-
+![Instacart Data Pipeline Architecture](https://github.com/user-attachments/assets/64f5ffbd-d830-473f-a5f7-ce8cc043c1c5)
 
 ## Key Design Decision
 
