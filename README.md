@@ -18,6 +18,13 @@ Mart/Gold
 Dimensional Model
 ```
 
+## Architecture
+
+The project separates data processing from analytical modeling:
+
+![Instacart Data Pipeline Architecture](https://github.com/user-attachments/assets/64f5ffbd-d830-473f-a5f7-ce8cc043c1c5)
+
+
 The final model uses a star-schema structure to analyze customer ordering behavior, product popularity, and reordering patterns.
 
 ## Data Model
@@ -180,12 +187,6 @@ Databricks Volume
      ├── order_products_prior
      └── order_products_train
 ```
-
-## Architecture
-
-The project separates data processing from analytical modeling:
-
-![Instacart Data Pipeline Architecture](https://github.com/user-attachments/assets/64f5ffbd-d830-473f-a5f7-ce8cc043c1c5)
 
 ## Key Design Decision
 
