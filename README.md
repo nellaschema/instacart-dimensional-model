@@ -20,7 +20,7 @@ Dimensional Model
 
 The final model uses a star-schema structure to analyze customer ordering behavior, product popularity, and reordering patterns.
 
-## Data Model
+## Data Model.
 
 The dimensional model consists of one fact table and two dimension tables.
 
