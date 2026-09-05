@@ -184,7 +184,7 @@ Databricks Volume
 
 The project separates data processing from analytical modeling:
 
-<img width="1173" height="540" alt="image" src="https://github.com/user-attachments/assets/64f5ffbd-d830-473f-a5f7-ce8cc043c1c5" />
+<img width="720" height="350" alt="Screenshot 2026-09-05 102456" src="https://github.com/user-attachments/assets/e26d261b-4f1e-4c1e-a962-62d32f9a7a7a" />
 
 
 ## Key Design Decision
