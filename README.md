@@ -148,6 +148,37 @@ The dimensional model supports questions such as:
 instacart-test-queries/
     Development and testing queries
 ```
+## Data Ingestion
+
+The Instacart dataset is ingested from the Cloudflare R2 source location into the **Bronze/Raw layer** in Databricks.
+
+The ingestion process uses:
+
+1. Explicit table schemas to define the expected data types.
+2. `COPY INTO` to load CSV files into Delta tables.
+3. File `patterns` to ensure that each table receives only its corresponding source file.
+4. Header handling to skip CSV column headers during ingestion.
+5. `SHOW TABLES` to verify that the raw tables were created successfully.
+
+### Ingestion Flow
+
+```text
+Cloudflare R2
+     │
+     │ CSV files
+     ▼
+Databricks Volume
+     │
+     │ COPY INTO
+     ▼
+01-raw (Bronze)
+     │
+     ├── orders
+     ├── products
+     ├── aisles
+     ├── departments
+     ├── order_products_prior
+     └── order_products_train
 
 ## Architecture
 
